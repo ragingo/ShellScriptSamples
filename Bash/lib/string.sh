@@ -13,6 +13,8 @@ dec_to_hex() {
     printf "%x" "$v"
 }
 
+export -f dec_to_hex
+
 dec_to_bin() {
     local v=$1
     local hex
@@ -20,15 +22,21 @@ dec_to_bin() {
     echo "\x$hex"
 }
 
+export -f dec_to_bin
+
 hex_to_dec() {
     local v=$1
     echo "$((0x$v))"
 }
 
+export -f hex_to_dec
+
 i_to_c() {
     local i=$1
     echo "$i" | awk '{ print("%c", $1) }'
 }
+
+export -f i_to_c
 
 substr() {
     local str=$1

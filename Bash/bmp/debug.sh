@@ -1,5 +1,24 @@
 #!/bin/bash
 
+calc_offsets() {
+    local -n sizes=$1
+    local -n offsets=$2
+    local item_count=${#sizes[@]}
+
+    array_fill offsets "$item_count" 0
+
+    for ((i=0; i < "$item_count"; i++)) do
+        if [ $i -gt 0 ]; then
+            local prev_offset=${offsets[$((i - 1))]}
+            local prev_size=${sizes[$((i - 1))]}
+            local offset=$((prev_offset + prev_size))
+            offsets[$i]=$offset
+        else
+            offsets[$i]=0
+        fi
+    done
+}
+
 dump_bitmap_file_header() {
     local data=()
     split data "$1"

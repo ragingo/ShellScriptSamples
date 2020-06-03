@@ -61,3 +61,19 @@ array_map() {
 }
 
 export -f array_map
+
+array_filter() {
+    local -n arr=$1
+    local fn=$2
+    local count="${#arr[@]}"
+
+    for ((i = 0; i < "$count"; i++)); do
+        if $fn "${arr[$i]}"; then
+            arr[$i]=${arr[$i]}
+        else
+            unset "arr[$i]"
+        fi
+    done
+}
+
+export -f array_filter

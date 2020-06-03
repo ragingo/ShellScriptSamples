@@ -14,3 +14,22 @@ pow() {
 }
 
 export -f pow
+
+sum() {
+    local -n arr=$1
+    local pred=${2:-""}
+    local ret=0
+
+    for ((i=0; i<"${#arr[@]}"; i++)) do
+        local v=${arr[$i]}
+        if [[ $pred = "" ]]; then
+            ret=$((ret + v))
+        else
+            if $pred "$v"; then
+                ret=$((ret + v))
+            fi
+        fi
+    done
+
+    echo "$ret"
+}

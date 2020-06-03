@@ -2,20 +2,21 @@
 
 set -eu
 
-cd "$(dirname "${BASH_SOURCE:-$0}")"
-pwd
+readonly WORK_DIR="$(dirname "${BASH_SOURCE:-$0}")"
+cd "$WORK_DIR"
 
-# shellcheck disable=SC1091
-. ../lib/array.sh
-# shellcheck disable=SC1091
-. ../lib/math.sh
-# shellcheck disable=SC1091
-. ../lib/string.sh
-# shellcheck disable=SC1091
-. ./def.sh
-# shellcheck disable=SC1091
-. ./debug.sh
+include() {
+    local target=$1
+    local path="${WORK_DIR}/${target}"
+    # shellcheck disable=SC1090
+    . "$path"
+}
 
+include ../lib/array.sh
+include ../lib/math.sh
+include ../lib/string.sh
+include def.sh
+include debug.sh
 
 # 入力ファイル
 readonly SRC_FILE_PATH=../../resources/catman.bmp

@@ -1,5 +1,25 @@
 #!/bin/bash
 
+is_odd() {
+    if [[ $(("$1" & 1)) -eq 1 ]]; then
+        true
+    else
+        false
+    fi
+}
+
+export -f is_odd
+
+is_even() {
+    if [[ $(("$1" & 1)) -eq 0 ]]; then
+        true
+    else
+        false
+    fi
+}
+
+export -f is_even
+
 # ビットシフトを書くと、VSCode拡張のエラーでエディタが真っ赤になってしまう・・・
 # ということで自分で用意した
 # が、 ** 演算子があったから要らなくなった
@@ -16,12 +36,12 @@ pow() {
 export -f pow
 
 sum() {
-    local -n arr=$1
+    local -n _arr=$1
     local pred=${2:-""}
     local ret=0
 
-    for ((i=0; i<"${#arr[@]}"; i++)) do
-        local v=${arr[$i]}
+    for ((i=0; i<"${#_arr[@]}"; i++)) do
+        local v=${_arr[$i]}
         if [[ $pred = "" ]]; then
             ret=$((ret + v))
         else
@@ -33,3 +53,18 @@ sum() {
 
     echo "$ret"
 }
+
+export -f sum
+
+fact() {
+    local x=$1
+    if [[ $x -le 1 ]]; then
+        echo 1
+    else
+        local y
+        y=$(fact $(("$x" - 1)))
+        echo $(("$x" * y))
+    fi
+}
+
+export -f fact

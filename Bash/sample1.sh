@@ -12,26 +12,17 @@ include() {
 }
 
 include lib/array.sh
+include lib/map.sh
 include lib/math.sh
 include lib/string.sh
 
-is_odd() {
-    if [[ $(("$1" & 1)) -eq 1 ]]; then
-        true
-    else
-        false
-    fi
-}
-
-is_even() {
-    if [[ $(("$1" & 1)) -eq 0 ]]; then
-        true
-    else
-        false
-    fi
-}
-
 test_math() {
+    # even, odd
+    is_even 1 && echo "even" || echo "odd"
+    is_even 2 && echo "even" || echo "odd"
+    is_odd 3 && echo "odd" || echo "even"
+    is_odd 4 && echo "odd" || echo "even"
+
     # pow
     pow 2 8
     pow 10 3
@@ -43,6 +34,9 @@ test_math() {
     echo "$r"
     r=$(sum a is_odd)
     echo "$r"
+
+    # fact
+    fact 4
 }
 
 test_array() {
@@ -51,5 +45,28 @@ test_array() {
     echo "${a[@]}"
 }
 
-test_math
-test_array
+test_map() {
+    local -A map=(
+        ["a"]=1
+        ["b"]=2
+        ["c"]=3
+    )
+    # map_keys map
+    # map_values map
+    # map_entry_count map
+    # map_contains_key map a
+    # map_contains_key map aa
+
+    local a
+    a=$(map_values map)
+    local b=()
+    split b "$a"
+    local c
+    c=$(sum b)
+    echo "$c"
+}
+
+
+# test_math
+# test_array
+# test_map

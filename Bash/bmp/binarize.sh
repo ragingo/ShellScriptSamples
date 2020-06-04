@@ -18,7 +18,7 @@ binarize() {
 
     array_fill _dst_img $((w * h * d)) "\x0"
 
-    for ((i = 0; i < $((w * h * d)); i += 3)) do
+    for ((i = 0; i < $((w * h * d)); i += d)) do
         local r=${_src_img[$((i + 0))]}
         local g=${_src_img[$((i + 1))]}
         local b=${_src_img[$((i + 2))]}

@@ -8,28 +8,26 @@ else
 fi
 
 calc_offsets() {
-    local -n sizes=$1
-    local -n offsets=$2
-    local item_count=${#sizes[@]}
+    local -n _sizes=$1
+    local -n _offsets=$2
+    local item_count=${#_sizes[@]}
 
-    array_fill offsets "$item_count" 0
+    array_fill _offsets "$item_count" 0
 
     for ((i=0; i < "$item_count"; i++)) do
         if [ $i -gt 0 ]; then
-            local prev_offset=${offsets[$((i - 1))]}
-            local prev_size=${sizes[$((i - 1))]}
+            local prev_offset=${_offsets[$((i - 1))]}
+            local prev_size=${_sizes[$((i - 1))]}
             local offset=$((prev_offset + prev_size))
-            offsets[$i]=$offset
+            _offsets[$i]=$offset
         else
-            offsets[$i]=0
+            _offsets[$i]=0
         fi
     done
 }
 
 dump_bitmap_file_header() {
-    local data=()
-    split data "$1"
-
+    local -n _data=$1
     local sizes=(2 4 2 2 4)
     local offsets=()
     local item_count=${#sizes[@]}
@@ -39,7 +37,7 @@ dump_bitmap_file_header() {
     for ((i=0; i < "$item_count"; i++)) do
         local idx="${offsets[$i]}"
         local len="${sizes[$i]}"
-        local val="${data[*]:$idx:$len}"
+        local val="${_data[*]:$idx:$len}"
 
         case "$i" in
             0 )
@@ -61,9 +59,7 @@ dump_bitmap_file_header() {
 export -f dump_bitmap_file_header
 
 dump_bitmap_info_header() {
-    local data=()
-    split data "$1"
-
+    local -n _data=$1
     local sizes=(4 4 4 2 2 4 4 4 4 4 4)
     local offsets=()
     local item_count=${#sizes[@]}
@@ -73,7 +69,7 @@ dump_bitmap_info_header() {
     for ((i=0; i < "$item_count"; i++)) do
         local idx="${offsets[$i]}"
         local len="${sizes[$i]}"
-        local val="${data[*]:$idx:$len}"
+        local val="${_data[*]:$idx:$len}"
 
         case "$i" in
             0 )

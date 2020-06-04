@@ -31,18 +31,33 @@ readonly SRC_STRING=$(bin_to_dec_str "$SRC_FILE_PATH" | trim_spaces)
 SRC_DATA=()
 split SRC_DATA "$SRC_STRING"
 
+
 # BITMAPFILEHEADER
-BITMAPFILEHEADER_DATA=(${SRC_DATA[@]:0:$BITMAPFILEHEADER_SIZE})
+# shellcheck disable=SC2034
+BITMAPFILEHEADER_DATA=("${SRC_DATA[@]:0:$BITMAPFILEHEADER_SIZE}")
 
-# BITMAPINFOHEADER (10進数の値の配列に変換)
+# dump_bitmap_file_header BITMAPFILEHEADER_DATA
+
+
+# BITMAPINFOHEADER
 __offset="$BITMAPFILEHEADER_SIZE"
-BITMAPINFOHEADER_DATA=(${SRC_DATA[@]:$__offset:$BITMAPINFOHEADER_SIZE})
+# shellcheck disable=SC2034
+BITMAPINFOHEADER_DATA=("${SRC_DATA[@]:$__offset:$BITMAPINFOHEADER_SIZE}")
 
-# 画像データ (10進数の値の配列に変換)
+# dump_bitmap_info_header BITMAPINFOHEADER_DATA
+
+
+# 画像データ
 __offset=$((__offset + BITMAPINFOHEADER_SIZE))
-IMAGE_DATA=(${SRC_DATA[@]:$__offset})
+# shellcheck disable=SC2034
+IMAGE_DATA=("${SRC_DATA[@]:$__offset}")
 
+
+# 2値化
+# shellcheck disable=SC2034
 output_data=()
 binarize 32 32 3 100 IMAGE_DATA output_data
 
+
+# ファイル出力
 output_bmp_file "$DST_FILE_PATH" BITMAPFILEHEADER_DATA BITMAPINFOHEADER_DATA output_data

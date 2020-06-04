@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ -v __INCLUDE_BMP_DEF_SH ]]; then
+    return
+else
+    readonly __INCLUDE_BMP_DEF_SH=1
+    export __INCLUDE_BMP_DEF_SH
+fi
+
 # https://docs.microsoft.com/ja-jp/windows/win32/api/wingdi/ns-wingdi-bitmapfileheader
 declare -Ar BITMAPFILEHEADER_FIELDS=(
     ["bfType"]=2

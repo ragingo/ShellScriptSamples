@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ -v __INCLUDE_BMP_DEBUG_SH ]]; then
+    return
+else
+    readonly __INCLUDE_BMP_DEBUG_SH=1
+    export __INCLUDE_BMP_DEBUG_SH
+fi
+
 calc_offsets() {
     local -n sizes=$1
     local -n offsets=$2

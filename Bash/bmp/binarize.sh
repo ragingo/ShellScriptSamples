@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -v __INCLUDE_BMP_BINARIZE_SH ]]; then
-    return
-else
-    readonly __INCLUDE_BMP_BINARIZE_SH=1
-    export __INCLUDE_BMP_BINARIZE_SH
-fi
+include_guard BMP_BINARIZE_SH || return 0
 
 # shellcheck disable=SC2034
 binarize() {

@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -v __INCLUDE_MAP_SH ]]; then
-    return
-else
-    readonly __INCLUDE_MAP_SH=1
-    export __INCLUDE_MAP_SH
-fi
+include_guard MAP_SH || return 0
 
 map_keys() {
     local -n _m=$1

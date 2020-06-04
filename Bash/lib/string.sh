@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -v __INCLUDE_STRING_SH ]]; then
-    return
-else
-    readonly __INCLUDE_STRING_SH=1
-    export __INCLUDE_STRING_SH
-fi
+include_guard STRING_SH || return 0
 
 split() {
     local -n _arr=$1

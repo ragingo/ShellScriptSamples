@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -v __INCLUDE_ARRAY_SH ]]; then
-    return
-else
-    readonly __INCLUDE_ARRAY_SH=1
-    export __INCLUDE_ARRAY_SH
-fi
+include_guard ARRAY_SH || return 0
 
 #######################################
 # 渡された配列を指定されたサイズにし、

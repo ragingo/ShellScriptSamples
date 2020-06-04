@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -v __INCLUDE_BMP_DEF_SH ]]; then
-    return
-else
-    readonly __INCLUDE_BMP_DEF_SH=1
-    export __INCLUDE_BMP_DEF_SH
-fi
+include_guard BMP_DEF_SH || return 0
 
 # https://docs.microsoft.com/ja-jp/windows/win32/api/wingdi/ns-wingdi-bitmapfileheader
 readonly BITMAPFILEHEADER_SIZE=$((2 + 4 + 2 + 2 + 4))

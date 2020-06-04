@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -v __INCLUDE_MATH_SH ]]; then
-    return
-else
-    readonly __INCLUDE_MATH_SH=1
-    export __INCLUDE_MATH_SH
-fi
+include_guard MATH_SH || return 0
 
 is_odd() {
     if [[ $(("$1" & 1)) -eq 1 ]]; then

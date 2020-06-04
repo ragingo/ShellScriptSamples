@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -v __INCLUDE_BMP_IO_SH ]]; then
-    return
-else
-    readonly __INCLUDE_BMP_IO_SH=1
-    export __INCLUDE_BMP_IO_SH
-fi
+include_guard BMP_IO_SH || return 0
 
 output_bmp_file() {
     local path=$1

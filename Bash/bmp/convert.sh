@@ -12,12 +12,14 @@ include() {
     . "$path"
 }
 
+include ../lib/_.sh
 include ../lib/array.sh
 include ../lib/map.sh
 include ../lib/math.sh
 include ../lib/string.sh
 include def.sh
 include io.sh
+include parse.sh
 include binarize.sh
 include debug.sh
 
@@ -39,7 +41,7 @@ BITMAPFILEHEADER_DATA=("${SRC_DATA[@]:0:$BITMAPFILEHEADER_SIZE}")
 
 declare -A file_header=()
 parse_bitmap_file_header BITMAPFILEHEADER_DATA file_header
-map_entries file_header
+dump_bitmap_file_header BITMAPFILEHEADER_DATA file_header
 
 
 # BITMAPINFOHEADER
@@ -49,8 +51,7 @@ BITMAPINFOHEADER_DATA=("${SRC_DATA[@]:$__offset:$BITMAPINFOHEADER_SIZE}")
 
 declare -A info_header=()
 parse_bitmap_info_header BITMAPINFOHEADER_DATA info_header
-map_entries info_header
-
+dump_bitmap_info_header BITMAPINFOHEADER_DATA info_header
 
 # 画像データ
 __offset=$((__offset + BITMAPINFOHEADER_SIZE))

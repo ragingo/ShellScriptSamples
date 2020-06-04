@@ -70,3 +70,8 @@ test_map() {
 # test_math
 # test_array
 # test_map
+
+str="0 1 2 3 4 5"
+arr1=(${str// / })
+arr2=${arr1[@]:2:2} # これで配列を切り出すことができるから、今のsubstringの実装は不要
+echo "${arr2[@]}"

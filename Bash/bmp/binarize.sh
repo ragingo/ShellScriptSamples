@@ -26,14 +26,18 @@ readonly DST_FILE_PATH=./output.bmp
 # 元データ (10進数の値がスペース区切りで並んでいる)
 readonly SRC_DATA=$(bin_to_dec_str "$SRC_FILE_PATH" | trim_spaces)
 
-# BITMAPFILEHEADER (10進数の値がスペース区切りで並んでいる)
-BITMAPFILEHEADER_DATA=$(substr "$SRC_DATA" 0 "$BITMAPFILEHEADER_SIZE")
-readonly BITMAPFILEHEADER_DATA
+# BITMAPFILEHEADER (10進数の値の配列に変換)
+BITMAPFILEHEADER_STRING=$(substr "$SRC_DATA" 0 "$BITMAPFILEHEADER_SIZE")
+readonly BITMAPFILEHEADER_STRING
+BITMAPFILEHEADER_DATA=()
+split BITMAPFILEHEADER_DATA "$BITMAPFILEHEADER_STRING"
 
-# BITMAPINFOHEADER (10進数の値がスペース区切りで並んでいる)
+# BITMAPINFOHEADER (10進数の値の配列に変換)
 __offset="$BITMAPFILEHEADER_SIZE"
-BITMAPINFOHEADER_DATA=$(substr "$SRC_DATA" "$__offset" "$BITMAPINFOHEADER_SIZE")
-readonly BITMAPINFOHEADER_DATA
+BITMAPINFOHEADER_STRING=$(substr "$SRC_DATA" "$__offset" "$BITMAPINFOHEADER_SIZE")
+readonly BITMAPINFOHEADER_STRING
+BITMAPINFOHEADER_DATA=()
+split BITMAPINFOHEADER_DATA "$BITMAPINFOHEADER_STRING"
 
 # 画像データ (10進数の値がスペース区切りで並んでいる)
 __offset=$((__offset + BITMAPINFOHEADER_SIZE))
@@ -66,18 +70,13 @@ binarize() {
         fi
     done
 
-    local bfh=()
-    split bfh "$BITMAPFILEHEADER_DATA"
-    array_map bfh dec_to_bin
-
-    local bih=()
-    split bih "$BITMAPINFOHEADER_DATA"
-    array_map bih dec_to_bin
+    array_map BITMAPFILEHEADER_DATA dec_to_bin
+    array_map BITMAPINFOHEADER_DATA dec_to_bin
 
     local IFS=""
     {
-        echo -en "${bfh[*]}"
-        echo -en "${bih[*]}"
+        echo -en "${BITMAPFILEHEADER_DATA[*]}"
+        echo -en "${BITMAPINFOHEADER_DATA[*]}"
         echo -en "${dst_img[*]}"
     } > "$DST_FILE_PATH"
 }

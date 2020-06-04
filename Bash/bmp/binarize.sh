@@ -39,21 +39,21 @@ readonly BITMAPINFOHEADER_STRING
 BITMAPINFOHEADER_DATA=()
 split BITMAPINFOHEADER_DATA "$BITMAPINFOHEADER_STRING"
 
-# 画像データ (10進数の値がスペース区切りで並んでいる)
+# 画像データ (10進数の値の配列に変換)
 __offset=$((__offset + BITMAPINFOHEADER_SIZE))
-IMAGE_DATA=$(substr "$SRC_DATA" "$__offset" "")
-readonly IMAGE_DATA
+IMAGE_STR=$(substr "$SRC_DATA" "$__offset" "")
+readonly IMAGE_STR
+IMAGE_DATA=()
+split IMAGE_DATA "$IMAGE_STR"
 
 binarize() {
     local w=$1  # width
     local h=$2  # height
     local d=$3  # depth
-    local img=$4
-    local t=100 # threshold
-    local src_img=()
+    local -n src_img=$4
     local dst_img=()
+    local t=100 # threshold
 
-    split src_img "$img"
     array_fill dst_img $((w * h * d)) "\x0"
 
     for ((i = 0; i < $((w * h * d)); i += 3)) do
@@ -84,4 +84,4 @@ binarize() {
 # dump_bitmap_file_header "$BITMAPFILEHEADER_DATA"
 # dump_bitmap_info_header "$BITMAPINFOHEADER_DATA"
 
-binarize 32 32 3 "$IMAGE_DATA"
+binarize 32 32 3 IMAGE_DATA

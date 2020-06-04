@@ -13,6 +13,7 @@ include() {
 }
 
 include ../lib/array.sh
+include ../lib/map.sh
 include ../lib/math.sh
 include ../lib/string.sh
 include def.sh
@@ -36,7 +37,9 @@ split SRC_DATA "$SRC_STRING"
 # shellcheck disable=SC2034
 BITMAPFILEHEADER_DATA=("${SRC_DATA[@]:0:$BITMAPFILEHEADER_SIZE}")
 
-# dump_bitmap_file_header BITMAPFILEHEADER_DATA
+declare -A file_header=()
+parse_bitmap_file_header BITMAPFILEHEADER_DATA file_header
+map_entries file_header
 
 
 # BITMAPINFOHEADER
@@ -44,7 +47,9 @@ __offset="$BITMAPFILEHEADER_SIZE"
 # shellcheck disable=SC2034
 BITMAPINFOHEADER_DATA=("${SRC_DATA[@]:$__offset:$BITMAPINFOHEADER_SIZE}")
 
-# dump_bitmap_info_header BITMAPINFOHEADER_DATA
+declare -A info_header=()
+parse_bitmap_info_header BITMAPINFOHEADER_DATA info_header
+map_entries info_header
 
 
 # 画像データ
@@ -56,7 +61,12 @@ IMAGE_DATA=("${SRC_DATA[@]:$__offset}")
 # 2値化
 # shellcheck disable=SC2034
 output_data=()
-binarize 32 32 3 100 IMAGE_DATA output_data
+binarize \
+    "${info_header["biWidth"]}" \
+    "${info_header["biHeight"]}" \
+    "${info_header["biBitCount"]}" \
+    100 \
+    IMAGE_DATA output_data
 
 
 # ファイル出力

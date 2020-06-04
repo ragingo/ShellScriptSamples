@@ -11,7 +11,7 @@ fi
 binarize() {
     local w=$1  # width
     local h=$2  # height
-    local d=$3  # depth
+    local d=$(($3 / 8))  # depth (一旦、ビットで来る前提にする)
     local t=$4  # threshold
     local -n _src_img=$5
     local -n _dst_img=$6

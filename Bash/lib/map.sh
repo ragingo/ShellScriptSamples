@@ -25,6 +25,15 @@ map_values() {
 
 export -f map_values
 
+map_entries() {
+    local -n _m=$1
+    for k in "${!_m[@]}"; do
+        echo "$k ${_m[$k]}"
+    done
+}
+
+export -f map_entries
+
 map_entry_count() {
     local -n _m=$1
     echo "${#_m[@]}"

@@ -1,9 +1,16 @@
 #!/bin/bash
 
+if [[ -v __INCLUDE_STRING_SH ]]; then
+    return
+else
+    readonly __INCLUDE_STRING_SH=1
+    export __INCLUDE_STRING_SH
+fi
+
 split() {
-    local -n arr=$1
+    local -n _arr=$1
     local str=$2
-    arr=(${str// / })
+    _arr=(${str// / })
 }
 
 export -f split

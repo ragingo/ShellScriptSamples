@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ -v __INCLUDE_MATH_SH ]]; then
+    return
+else
+    readonly __INCLUDE_MATH_SH=1
+    export __INCLUDE_MATH_SH
+fi
+
 is_odd() {
     if [[ $(("$1" & 1)) -eq 1 ]]; then
         true

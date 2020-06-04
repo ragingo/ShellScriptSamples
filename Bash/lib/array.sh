@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ -v __INCLUDE_ARRAY_SH ]]; then
+    return
+else
+    readonly __INCLUDE_ARRAY_SH=1
+    export __INCLUDE_ARRAY_SH
+fi
+
 #######################################
 # 渡された配列を指定されたサイズにし、
 # 指定された値で埋める

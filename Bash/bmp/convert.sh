@@ -59,17 +59,13 @@ main() {
         100 \
         pixels output_data
 
-    # TODO: ヘッダ作成関数作る
     # ファイル出力
-    # bmp_file_save "$DST_FILE_PATH" BITMAPFILEHEADER_DATA BITMAPINFOHEADER_DATA output_data
+    bmp_file_save \
+        "$DST_FILE_PATH" \
+        "${info_header["biWidth"]}" \
+        "${info_header["biHeight"]}" \
+        "${info_header["biBitCount"]}" \
+        output_data
 }
 
-# main
-
-# file header ok
-# A=()
-# bmp_make_file_header A 3164
-# array_map A dec_to_bin
-# echo "${A[@]}"
-
-# TODO: make_info_header
+main

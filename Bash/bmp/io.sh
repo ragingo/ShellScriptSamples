@@ -18,11 +18,17 @@ export -f bmp_file_load
 
 bmp_file_save() {
     local path=$1
-    local -n _bfh=$2
-    local -n _bih=$3
-    local -n _data=$4
+    local w=$2
+    local h=$3
+    local b=$4
+    local -n _data=$5
 
+    local _bfh=()
+    bmp_make_file_header _bfh "$(( BITMAPFILEHEADER_SIZE + BITMAPINFOHEADER_SIZE + ${#_data[@]} ))"
     array_map _bfh dec_to_bin
+
+    local _bih=()
+    bmp_make_info_header _bih "$w" "$h" "$b"
     array_map _bih dec_to_bin
 
     local IFS=""

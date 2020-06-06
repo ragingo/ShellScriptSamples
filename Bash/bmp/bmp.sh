@@ -130,3 +130,39 @@ bmp_make_file_header() {
     _output+=(0 0)
     _output+=("${offset[@]}")
 }
+
+export -f bmp_make_file_header
+
+bmp_make_info_header() {
+    local -n _output=$1
+    local _w=$2
+    local _h=$3
+    local _bits=$4
+
+    local header_size=()
+    u32_to_u8x4 "$BITMAPINFOHEADER_SIZE" header_size
+
+    local w=()
+    u32_to_u8x4 "$_w" w
+
+    local h=()
+    u32_to_u8x4 "$_h" h
+
+    local d="$((_bits / 8))"
+    local image_size=()
+    u32_to_u8x4 "$((_w * _h * d))" image_size
+
+    _output+=("${header_size[@]}")
+    _output+=("${w[@]}")
+    _output+=("${h[@]}")
+    _output+=(1 0)
+    _output+=("$_bits" 0)
+    _output+=(0 0 0 0)
+    _output+=("${image_size[@]}")
+    _output+=(0 0 0 0)
+    _output+=(0 0 0 0)
+    _output+=(0 0 0 0)
+    _output+=(0 0 0 0)
+}
+
+export -f bmp_make_info_header

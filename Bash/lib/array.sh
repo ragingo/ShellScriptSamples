@@ -70,9 +70,7 @@ array_filter() {
     local count="${#_arr[@]}"
 
     for ((i = 0; i < "$count"; i++)); do
-        if $fn "${_arr[$i]}"; then
-            arr[$i]=${_arr[$i]}
-        else
+        if ! $fn "${_arr[$i]}"; then
             unset "_arr[$i]"
         fi
     done

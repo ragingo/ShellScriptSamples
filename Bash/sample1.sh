@@ -11,6 +11,7 @@ include() {
     . "$path"
 }
 
+include lib/_.sh
 include lib/array.sh
 include lib/map.sh
 include lib/math.sh
@@ -68,7 +69,7 @@ test_map() {
 
 
 # test_math
-# test_array
+test_array
 # test_map
 
 str="0 1 2 3 4 5"

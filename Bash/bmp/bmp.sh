@@ -1,6 +1,6 @@
 #!/bin/bash
 
-include_guard BMP_PARSE_SH || return 0
+include_guard BMP_BMP_SH || return 0
 
 calc_offsets() {
     local -n _sizes=$1
@@ -24,7 +24,7 @@ calc_offsets() {
 export -f calc_offsets
 
 # shellcheck disable=SC2034
-parse_bitmap_file_header() {
+bmp_parse_file_header() {
     local -n _data=$1
     local -n _map=$2
     local sizes=(2 4 2 2 4)
@@ -48,10 +48,10 @@ parse_bitmap_file_header() {
     done
 }
 
-export -f parse_bitmap_file_header
+export -f bmp_parse_file_header
 
 # shellcheck disable=SC2034
-parse_bitmap_info_header() {
+bmp_parse_info_header() {
     local -n _data=$1
     local -n _map=$2
     local sizes=(4 4 4 2 2 4 4 4 4 4 4)
@@ -81,4 +81,52 @@ parse_bitmap_info_header() {
     done
 }
 
-export -f parse_bitmap_info_header
+export -f bmp_parse_info_header
+
+# shellcheck disable=SC2034
+bmp_meta_load() {
+    local -n _data=$1
+    local -n _file_header=$2
+    local -n _info_header=$3
+
+    # BITMAPFILEHEADER
+    local file_header_data=("${_data[@]:0:$BITMAPFILEHEADER_SIZE}")
+    bmp_parse_file_header file_header_data file_header
+
+    # BITMAPINFOHEADER
+    __offset="$BITMAPFILEHEADER_SIZE"
+    local info_header_data=("${_data[@]:$__offset:$BITMAPINFOHEADER_SIZE}")
+    bmp_parse_info_header info_header_data info_header
+}
+
+export -f bmp_meta_load
+
+# shellcheck disable=SC2034
+bmp_get_pixels() {
+    local -n _data=$1
+    local -n _file_header=$2
+    local -n _pixels=$3
+
+    # 画像データ
+    local offset="${_file_header["bfOffBits"]}"
+    _pixels=("${_data[@]:$offset}")
+}
+
+export -f bmp_get_pixels
+
+bmp_make_file_header() {
+    local -n _output=$1
+    local file_size=$2
+
+    local size=()
+    u32_to_u8x4 "$file_size" size
+
+    local offset=()
+    u32_to_u8x4 "$((BITMAPFILEHEADER_SIZE + BITMAPINFOHEADER_SIZE))" offset
+
+    _output+=(66 77)
+    _output+=("${size[@]}")
+    _output+=(0 0)
+    _output+=(0 0)
+    _output+=("${offset[@]}")
+}

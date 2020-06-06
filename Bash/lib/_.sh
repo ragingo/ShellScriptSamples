@@ -12,3 +12,9 @@ include_guard() {
 }
 
 export -f include_guard
+
+included_files() {
+    echo "${!__INCLUDE_*}"
+}
+
+export -f included_files

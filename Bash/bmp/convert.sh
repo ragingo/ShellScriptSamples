@@ -19,9 +19,13 @@ include ../lib/math.sh
 include ../lib/string.sh
 include def.sh
 include io.sh
-include parse.sh
+include bmp.sh
 include binarize.sh
 include debug.sh
+
+echo "included files"
+included_files | tr ' ' '\n'
+echo ""
 
 # 入力ファイル
 readonly SRC_FILE_PATH=../../resources/catman.bmp
@@ -29,46 +33,43 @@ readonly SRC_FILE_PATH=../../resources/catman.bmp
 # 出力ファイル
 readonly DST_FILE_PATH=./output.bmp
 
-# 元データ (10進数の値の配列に変換)
-readonly SRC_STRING=$(bin_to_dec_str "$SRC_FILE_PATH" | trim_spaces)
-SRC_DATA=()
-split SRC_DATA "$SRC_STRING"
-
-
-# BITMAPFILEHEADER
 # shellcheck disable=SC2034
-BITMAPFILEHEADER_DATA=("${SRC_DATA[@]:0:$BITMAPFILEHEADER_SIZE}")
+main() {
+    # ファイル全体のバイナリデータを取得
+    local src_data=()
+    bmp_file_load "$SRC_FILE_PATH" src_data
 
-declare -A file_header=()
-parse_bitmap_file_header BITMAPFILEHEADER_DATA file_header
-dump_bitmap_file_header BITMAPFILEHEADER_DATA file_header
+    # 各メタデータを取得
+    declare -A file_header=()
+    declare -A info_header=()
+    bmp_meta_load src_data file_header info_header
+    # map_entries file_header
+    # map_entries info_header
 
+    # 全ピクセル取得
+    local pixels=()
+    bmp_get_pixels src_data file_header pixels
 
-# BITMAPINFOHEADER
-__offset="$BITMAPFILEHEADER_SIZE"
-# shellcheck disable=SC2034
-BITMAPINFOHEADER_DATA=("${SRC_DATA[@]:$__offset:$BITMAPINFOHEADER_SIZE}")
+    # 2値化
+    output_data=()
+    binarize \
+        "${info_header["biWidth"]}" \
+        "${info_header["biHeight"]}" \
+        "${info_header["biBitCount"]}" \
+        100 \
+        pixels output_data
 
-declare -A info_header=()
-parse_bitmap_info_header BITMAPINFOHEADER_DATA info_header
-dump_bitmap_info_header BITMAPINFOHEADER_DATA info_header
+    # TODO: ヘッダ作成関数作る
+    # ファイル出力
+    # bmp_file_save "$DST_FILE_PATH" BITMAPFILEHEADER_DATA BITMAPINFOHEADER_DATA output_data
+}
 
-# 画像データ
-__offset=$((__offset + BITMAPINFOHEADER_SIZE))
-# shellcheck disable=SC2034
-IMAGE_DATA=("${SRC_DATA[@]:$__offset}")
+# main
 
+# file header ok
+# A=()
+# bmp_make_file_header A 3164
+# array_map A dec_to_bin
+# echo "${A[@]}"
 
-# 2値化
-# shellcheck disable=SC2034
-output_data=()
-binarize \
-    "${info_header["biWidth"]}" \
-    "${info_header["biHeight"]}" \
-    "${info_header["biBitCount"]}" \
-    100 \
-    IMAGE_DATA output_data
-
-
-# ファイル出力
-output_bmp_file "$DST_FILE_PATH" BITMAPFILEHEADER_DATA BITMAPINFOHEADER_DATA output_data
+# TODO: make_info_header

@@ -130,3 +130,41 @@ u8x4_string_to_u32() {
 }
 
 export -f u8x4_string_to_u32
+
+u32_to_u8x2_string() {
+    local v=$1
+    local a=$(("$v" >>  0 & 0xff))
+    local b=$(("$v" >>  8 & 0xff))
+    echo "$a $b"
+}
+
+export -f u32_to_u8x2_string
+
+u32_to_u8x2() {
+    local v=$1
+    # _arr: circular name reference が出てしまうから渋々 __arr にした・・・どうすればすっきり解決できる？
+    local -n __arr=$2
+    split __arr "$(u32_to_u8x2_string "$v")"
+}
+
+export -f u32_to_u8x2
+
+u32_to_u8x4_string() {
+    local v=$1
+    local a=$(("$v" >>  0 & 0xff))
+    local b=$(("$v" >>  8 & 0xff))
+    local c=$(("$v" >> 16 & 0xff))
+    local d=$(("$v" >> 24 & 0xff))
+    echo "$a $b $c $d"
+}
+
+export -f u32_to_u8x4_string
+
+u32_to_u8x4() {
+    local v=$1
+    # _arr: circular name reference が出てしまうから渋々 __arr にした・・・どうすればすっきり解決できる？
+    local -n __arr=$2
+    split __arr "$(u32_to_u8x4_string "$v")"
+}
+
+export -f u32_to_u8x4

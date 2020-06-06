@@ -5,7 +5,7 @@ include_guard BMP_DEBUG_SH || return 0
 dump_bitmap_file_header() {
     local -n __data=$1
     declare -A file_header=()
-    parse_bitmap_file_header __data file_header
+    bmp_parse_file_header __data file_header
 
     echo "=== BITMAPFILEHEADER ==="
 
@@ -25,7 +25,7 @@ export -f dump_bitmap_file_header
 dump_bitmap_info_header() {
     local -n __data=$1
     declare -A info_header=()
-    parse_bitmap_info_header __data info_header
+    bmp_parse_info_header __data info_header
 
     echo "=== BITMAPINFOHEADER ==="
 

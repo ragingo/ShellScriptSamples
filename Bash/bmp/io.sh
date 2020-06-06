@@ -2,7 +2,21 @@
 
 include_guard BMP_IO_SH || return 0
 
-output_bmp_file() {
+# shellcheck disable=SC2034
+bmp_file_load() {
+    local path=$1
+    local -n _data=$2
+
+    # 元データ (10進数の値の配列に変換)
+    local str
+    str=$(bin_to_dec_str "$path" | trim_spaces)
+
+    split _data "$str"
+}
+
+export -f bmp_file_load
+
+bmp_file_save() {
     local path=$1
     local -n _bfh=$2
     local -n _bih=$3
@@ -19,4 +33,4 @@ output_bmp_file() {
     } > "$path"
 }
 
-export -f output_bmp_file
+export -f bmp_file_save

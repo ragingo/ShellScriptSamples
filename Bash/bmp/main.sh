@@ -51,7 +51,7 @@ main() {
     bmp_get_pixels src_data file_header pixels
 
     # 2値化
-    output_data=()
+    local output_data=()
     binarize \
         "${info_header["biWidth"]}" \
         "${info_header["biHeight"]}" \

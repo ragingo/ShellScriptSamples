@@ -16,11 +16,11 @@ include_guard ARRAY_SH || return 0
 #   $1
 #######################################
 array_fill() {
-    local -n _arr=$1
+    local -n __array_fill_arr=$1
     local size=$2
     local val=$3
     for _ in $(seq 1 "$size"); do
-        _arr+=("$val")
+        __array_fill_arr+=("$val")
     done
 }
 
@@ -37,8 +37,8 @@ export -f array_fill
 #   要素数
 #######################################
 array_count() {
-    local -n _arr=$1
-    echo "${#_arr[@]}"
+    local -n __array_count_arr=$1
+    echo "${#__array_count_arr[@]}"
 }
 
 export -f array_count
@@ -55,23 +55,23 @@ export -f array_count
 #   $1
 #######################################
 array_map() {
-    local -n _arr=$1
+    local -n __array_map_arr=$1
     local fn=$2
-    for ((i = 0; i < "${#_arr[@]}"; i++)); do
-        _arr[$i]=$($fn "${_arr[$i]}")
+    for ((i = 0; i < "${#__array_map_arr[@]}"; i++)); do
+        __array_map_arr[$i]=$($fn "${__array_map_arr[$i]}")
     done
 }
 
 export -f array_map
 
 array_filter() {
-    local -n _arr=$1
+    local -n __array_filter_arr=$1
     local fn=$2
-    local count="${#_arr[@]}"
+    local count="${#__array_filter_arr[@]}"
 
     for ((i = 0; i < "$count"; i++)); do
-        if ! $fn "${_arr[$i]}"; then
-            unset "_arr[$i]"
+        if ! $fn "${__array_filter_arr[$i]}"; then
+            unset "__array_filter_arr[$i]"
         fi
     done
 }

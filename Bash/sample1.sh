@@ -46,17 +46,18 @@ test_array() {
     echo "${a[@]}"
 }
 
+# shellcheck disable=SC2034
 test_map() {
     local -A map=(
         ["a"]=1
         ["b"]=2
         ["c"]=3
     )
-    # map_keys map
-    # map_values map
-    # map_entry_count map
-    # map_contains_key map a
-    # map_contains_key map aa
+    map_keys map
+    map_values map
+    map_entry_count map
+    map_contains_key map a
+    map_contains_key map aa
 
     local a
     a=$(map_values map)
@@ -67,12 +68,6 @@ test_map() {
     echo "$c"
 }
 
-
-# test_math
-test_array
+# test_array
 # test_map
-
-str="0 1 2 3 4 5"
-arr1=(${str// / })
-arr2=${arr1[@]:2:2} # これで配列を切り出すことができるから、今のsubstringの実装は不要
-echo "${arr2[@]}"
+# test_math

@@ -2,10 +2,11 @@
 
 include_guard STRING_SH || return 0
 
+# shellcheck disable=SC2034
 split() {
-    local -n _arr=$1
+    local -n __split_arr=$1
     local str=$2
-    _arr=(${str// / })
+    __split_arr=(${str// / })
 }
 
 export -f split
@@ -140,11 +141,11 @@ u32_to_u8x2_string() {
 
 export -f u32_to_u8x2_string
 
+# shellcheck disable=SC2034
 u32_to_u8x2() {
     local v=$1
-    # _arr: circular name reference が出てしまうから渋々 __arr にした・・・どうすればすっきり解決できる？
-    local -n __arr=$2
-    split __arr "$(u32_to_u8x2_string "$v")"
+    local -n __u32_to_u8x2_arr=$2
+    split __u32_to_u8x2_arr "$(u32_to_u8x2_string "$v")"
 }
 
 export -f u32_to_u8x2
@@ -160,11 +161,11 @@ u32_to_u8x4_string() {
 
 export -f u32_to_u8x4_string
 
+# shellcheck disable=SC2034
 u32_to_u8x4() {
     local v=$1
-    # _arr: circular name reference が出てしまうから渋々 __arr にした・・・どうすればすっきり解決できる？
-    local -n __arr=$2
-    split __arr "$(u32_to_u8x4_string "$v")"
+    local -n __u32_to_u8x4_arr=$2
+    split __u32_to_u8x4_arr "$(u32_to_u8x4_string "$v")"
 }
 
 export -f u32_to_u8x4

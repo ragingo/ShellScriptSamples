@@ -38,12 +38,12 @@ pow() {
 export -f pow
 
 sum() {
-    local -n _arr=$1
+    local -n __sum_arr=$1
     local pred=${2:-""}
     local ret=0
 
-    for ((i=0; i<"${#_arr[@]}"; i++)) do
-        local v=${_arr[$i]}
+    for ((i=0; i<"${#__sum_arr[@]}"; i++)) do
+        local v="${__sum_arr[$i]}"
         if [[ $pred = "" ]]; then
             ret=$((ret + v))
         else

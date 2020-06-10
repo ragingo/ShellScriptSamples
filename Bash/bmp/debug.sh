@@ -2,10 +2,11 @@
 
 include_guard BMP_DEBUG_SH || return 0
 
+# shellcheck disable=SC2034
 dump_bitmap_file_header() {
-    local -n __data=$1
+    local -n __dump_bitmap_file_header_data=$1
     declare -A file_header=()
-    bmp_parse_file_header __data file_header
+    bmp_parse_file_header __dump_bitmap_file_header_data file_header
 
     echo "=== BITMAPFILEHEADER ==="
 
@@ -22,10 +23,11 @@ dump_bitmap_file_header() {
 
 export -f dump_bitmap_file_header
 
+# shellcheck disable=SC2034
 dump_bitmap_info_header() {
-    local -n __data=$1
+    local -n __dump_bitmap_info_header_data=$1
     declare -A info_header=()
-    bmp_parse_info_header __data info_header
+    bmp_parse_info_header __dump_bitmap_info_header_data info_header
 
     echo "=== BITMAPINFOHEADER ==="
 

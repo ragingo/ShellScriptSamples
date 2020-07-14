@@ -36,10 +36,16 @@ export -f hex_to_dec
 
 i_to_c() {
     local i=$1
-    echo "$i" | awk '{ print("%c", $1) }'
+    echo "$i" | awk '{ printf("%c", $1) }'
 }
 
 export -f i_to_c
+
+c_to_i() {
+  printf "%d" \'"$1"
+}
+
+export -f c_to_i
 
 substr() {
     local str=$1

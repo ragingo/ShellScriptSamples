@@ -68,6 +68,18 @@ test_map() {
     echo "$c"
 }
 
+test_string() {
+    c_to_i 'A'
+    echo ""
+    c_to_i 'B'
+    echo ""
+    i_to_c 65
+    echo ""
+    i_to_c 66
+    echo ""
+}
+
 # test_array
 # test_map
 # test_math
+test_string

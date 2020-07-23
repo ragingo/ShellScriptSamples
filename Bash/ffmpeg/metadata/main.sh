@@ -16,48 +16,18 @@ set -eu
 export -f get_codec_name
 
 # shellcheck disable=SC2010
+# shellcheck disable=SC2016
 # shellcheck disable=SC2046
 dump() {
     local input_dir=$1
 
     pushd "$input_dir"
 
-    ls -1d $(find .) | \
+    find $(pwd) -type f | \
         grep -E "^.+\.mp4$" | \
-        xargs -P4 -n2 -I% ffmpeg -i % 2>&1 | \
-        grep -E "Input|Stream" > dump.txt
+        xargs -P6 -n3 -I% bash -c 'name="$(get_codec_name %)"; echo "% $name"' 2>&1
 
     popd
  }
 
-# shellcheck disable=SC2010
-# shellcheck disable=SC2016
-# shellcheck disable=SC2046
-dump2() {
-    local input_dir=$1
-
-    pushd "$input_dir"
-
-    ls -1d $(find .) | \
-        grep -E "^.+\.mp4$" | \
-        xargs -P4 -n3 -I% bash -c 'name="$(get_codec_name %)"; echo "% $name"' 2>&1
-
-    popd
- }
-
- filter() {
-    local input_dir=$1
-
-    pushd "$input_dir"
-
-    grep -E "Stream.+Video: h264" dump.txt -B1 | \
-        grep -E "Input.+" | \
-        sed -r "s/^Input.+from ['](.+\.mp4)[']:/\1/"
-
-    popd
-}
-
-# dump "$@"
-# filter "$@"
-
-dump2 "$@"
+dump "$@"

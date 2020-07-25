@@ -12,6 +12,7 @@ to_h265() {
         -rc vbr_hq \
         -vb 1.2M \
         -c:v hevc_nvenc \
+        -video_track_timescale 60 \
         "$output_file_path"
 }
 

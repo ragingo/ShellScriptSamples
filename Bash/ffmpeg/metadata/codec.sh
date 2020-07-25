@@ -1,8 +1,6 @@
 #!/bin/bash
 
-set -eu
-
- get_codec_name() {
+get_codec_name() {
     local input_path=$1
     ffprobe \
         -v quiet \
@@ -18,7 +16,8 @@ export -f get_codec_name
 # shellcheck disable=SC2010
 # shellcheck disable=SC2016
 # shellcheck disable=SC2046
-dump() {
+# shellcheck disable=SC2164
+dump_codec_names() {
     local input_dir=$1
 
     pushd "$input_dir"
@@ -30,4 +29,6 @@ dump() {
     popd
  }
 
-dump "$@"
+export -f dump_codec_names
+
+# dump_codec_names "$@"

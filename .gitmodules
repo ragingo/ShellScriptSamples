@@ -1,0 +1,3 @@
+[submodule "Bash/lib/ragingosh"]
+	path = Bash/lib/ragingosh
+	url = git@github.com:ragingo/ragingosh.git

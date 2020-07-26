@@ -11,11 +11,11 @@ include() {
     . "$path"
 }
 
-include lib/_.sh
-include lib/array.sh
-include lib/map.sh
-include lib/math.sh
-include lib/string.sh
+include lib/ragingosh/include.sh
+include lib/ragingosh/array.sh
+include lib/ragingosh/map.sh
+include lib/ragingosh/math.sh
+include lib/ragingosh/string.sh
 
 test_math() {
     # even, odd

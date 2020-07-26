@@ -11,8 +11,8 @@ export -f get_hash
 readonly BASH_SRC_DIR="$(dirname "${BASH_SOURCE:-$0}")"
 
 # shellcheck disable=SC1090
-source "$BASH_SRC_DIR/../../lib/ragingosh/include.sh"
-include "$BASH_SRC_DIR/../../lib/ragingosh/io.sh"
+source "$BASH_SRC_DIR/../../lib/ragingosh/src/include.sh"
+include "$BASH_SRC_DIR/../../lib/ragingosh/src/io.sh"
 include "$BASH_SRC_DIR/../metadata/codec.sh"
 include "$BASH_SRC_DIR/../encode/encode.sh"
 

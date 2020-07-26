@@ -12,11 +12,11 @@ include() {
     . "$path"
 }
 
-include ../lib/ragingosh/include.sh
-include ../lib/ragingosh/array.sh
-include ../lib/ragingosh/map.sh
-include ../lib/ragingosh/math.sh
-include ../lib/ragingosh/string.sh
+include ../lib/ragingosh/src/include.sh
+include ../lib/ragingosh/src/array.sh
+include ../lib/ragingosh/src/map.sh
+include ../lib/ragingosh/src/math.sh
+include ../lib/ragingosh/src/string.sh
 include def.sh
 include io.sh
 include bmp.sh

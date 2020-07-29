@@ -11,11 +11,11 @@ include() {
     . "$path"
 }
 
-include lib/ragingosh/src/include.sh
-include lib/ragingosh/src/array.sh
-include lib/ragingosh/src/map.sh
-include lib/ragingosh/src/math.sh
-include lib/ragingosh/src/string.sh
+include lib/ragingosh/bash/src/include.sh
+include lib/ragingosh/bash/src/array.sh
+include lib/ragingosh/bash/src/map.sh
+include lib/ragingosh/bash/src/math.sh
+include lib/ragingosh/bash/src/string.sh
 
 test_math() {
     # even, odd
@@ -68,18 +68,6 @@ test_map() {
     echo "$c"
 }
 
-test_string() {
-    c_to_i 'A'
-    echo ""
-    c_to_i 'B'
-    echo ""
-    i_to_c 65
-    echo ""
-    i_to_c 66
-    echo ""
-}
-
 # test_array
 # test_map
 # test_math
-test_string

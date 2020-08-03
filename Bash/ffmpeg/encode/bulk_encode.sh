@@ -34,10 +34,11 @@ encode() {
 }
 
 create_record() {
-    local inum=$1
+    local dir=$1
+    local inum=$2
 
     local filename
-    filename=$(get_abs_file_path_from_inum "$inum")
+    filename=$(get_abs_file_path_from_inum "$dir" "$inum")
 
     local codecname
     codecname=$(get_codec_name "$filename")
@@ -84,7 +85,7 @@ bulk_encode() {
     local records
     records=$( \
         echo "$not_encoded_inums" | \
-        xargs -P6 -n3 -I% bash -c 'create_record "%"' 2>&1 \
+        xargs -P6 -n3 -I% bash -c "create_record $src_path %" 2>&1 \
     )
 
     # "h264" でフィルタ
